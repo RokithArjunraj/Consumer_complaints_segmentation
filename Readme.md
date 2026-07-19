@@ -28,14 +28,19 @@ The pipeline combines three complementary signal types before clustering, and ru
 4. **Cluster interpretation**
    - **TF-IDF** used to extract top distinguishing keywords per cluster, making each segment interpretable (not just a numbered group) for labeling and downstream action
 
+5. **Statistical robustness checks**
+   - Clusters below a minimum size threshold (n < 500) are **excluded from headline comparisons**, since relief-rate estimates on very small clusters are too noisy to trust — this avoids overstating the spread using an outlier small cluster
+   - **Bootstrap confidence intervals** (2,000 resamples) computed per segment to validate that relief-rate differences between segments are stable, not sampling noise
+
 ## Results
 - **14 total actionable segments** identified across the three product categories
-- Segments show a **3.6x spread in relief rates** (9.8% – 35%) — meaning otherwise-similar complaints receive very different outcomes depending on segment
-- **21,000+ complaints** flagged as belonging to consistently under-served segments (low relief-rate clusters), highlighting where consumer outcomes may warrant closer review
+- Among robustly-sized segments (n ≥ 500), relief rates show a **4.00x spread** — from **33.0%** (Debt_1, n=1,188) down to **8.3%** (Debt_6, n=654)
+- **21,000+ complaints** flagged as belonging to consistently under-served, low-relief segments, highlighting where consumer outcomes may warrant closer review
+- Segment-level analysis surfaced a further nuance: the *same* company can show very different relief rates across segments (e.g., one collections agency showed 81.2% relief in one segment vs. 31.6% in another) — suggesting complaint framing/context matters beyond company identity alone
 
 ## Notes & Limitations
 - Clustering was performed independently per product category; cross-product segment comparisons should be interpreted with that in mind
-- With only 14 segments across 3 product groups, some individual clusters are relatively small — segment-level relief-rate estimates should be treated as directional, not statistically definitive, without further validation
+- Very small clusters (n < 500) are deliberately excluded from the headline spread statistic; their relief rates are reported but flagged as unreliable given limited sample size
 - The specific embedding model used to generate narrative vectors is not documented in this notebook; embeddings were loaded pre-computed rather than generated inline
 
 ## Tech Stack
