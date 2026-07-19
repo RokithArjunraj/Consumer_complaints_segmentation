@@ -1,0 +1,15 @@
+# Data files - excluded from version control
+*.csv
+*.tsv
+data/
+Data/
+*.xlsx
+*.json.gz
+
+# Common Python/Jupyter junk (safe to exclude regardless)
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+venv/
+.venv/
